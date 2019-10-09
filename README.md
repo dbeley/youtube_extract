@@ -1,4 +1,4 @@
-# youtube-scraper
+# youtube_extract
 
 Extracts metadata for all videos from a youtube channel and exports it to a csv file.
 
@@ -17,19 +17,19 @@ pipenv install
 ## Usage
 
 ```
-python extract_channel_metadata.py CHANNEL_URL
+python youtube_extract.py CHANNEL_URL
 ```
 
 ## Help
 
 ```
-python extract_channel_metadata.py -h
+python youtube_extract.py -h
 ```
 
 ```
-usage: extract_channel_metadata.py [-h] [--debug] [channel_url]
+usage: youtube_extract.py [-h] [--debug] [channel_url]
 
-Extract metadata for all videos from a youtube channel.
+Extract metadata for all videos from a youtube channel into a csv file.
 
 positional arguments:
   channel_url  Youtube channel url.

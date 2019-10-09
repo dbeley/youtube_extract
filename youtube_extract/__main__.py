@@ -4,10 +4,8 @@ Extract metadata for all videos from a youtube channel into a csv file.
 import logging
 import time
 import argparse
-import ydl_utils
+from . import ydl_utils
 import csv
-
-# import pandas as pd
 
 logger = logging.getLogger()
 temps_debut = time.time()
@@ -15,6 +13,8 @@ temps_debut = time.time()
 
 def is_youtube_channel(channel_url):
     if "youtube" not in channel_url:
+        return False
+    if "channel" or "user" not in channel_url:
         return False
     return True
 
@@ -27,11 +27,14 @@ def return_entry(entry, field):
         return None
 
 
+def get_username_from_entries(list_dict):
+    return list_dict[0]["author"].replace(" ", "_")
+
+
 def main():
     args = parse_args()
     if not args.channel_url:
         channel_url = str(input("Enter a youtube channel url : "))
-        # logger.info("You entered %s.", channel_url)
     else:
         channel_url = args.channel_url
 
@@ -65,18 +68,13 @@ def main():
                 }
             )
 
-    with open(
-        f"export_{list_dict[0]['author'].replace(' ', '_')}_infos.csv", "w"
-    ) as f:
+    export_file_name = (
+        f"youtube_extract_{get_username_from_entries(list_dict)}.csv"
+    )
+    with open(export_file_name, "w") as f:
         csv_writer = csv.DictWriter(f, list_dict[0].keys(), delimiter="\t")
         csv_writer.writeheader()
         csv_writer.writerows(list_dict)
-
-    # pd.DataFrame.from_records(list_dict).to_csv(
-    #     f"export_{list_dict[0]['author'].replace(' ', '_')}_infos.csv",
-    #     sep="\t",
-    #     index=False,
-    # )
 
     logger.info("Runtime : %.2f seconds." % (time.time() - temps_debut))
 

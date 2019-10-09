@@ -14,7 +14,7 @@ temps_debut = time.time()
 def is_youtube_channel(channel_url):
     if "youtube" not in channel_url:
         return False
-    if "channel" or "user" not in channel_url:
+    if not any(x in channel_url for x in ["channel", "user"]):
         return False
     return True
 

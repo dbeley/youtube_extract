@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "16077881894a456a7a4c939a32d656400ce23c3fea13f39410d0512216e5bcf4"
+            "sha256": "0441f8943dbb9acb29dadb9b37d6a53ca811a23240e2c667eea0b791587b5a69"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -16,6 +16,10 @@
         ]
     },
     "default": {
+        "e1839a8": {
+            "editable": true,
+            "path": "."
+        },
         "youtube-dl": {
             "hashes": [
                 "sha256:1932f3b7f903bc64ced9e92b1006d7c6a69aac0755cba61b871009d5facd5069",

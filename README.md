@@ -1,14 +1,22 @@
 # youtube_extract
 
-Extracts metadata for all videos from a youtube channel and exports it to a csv file.
+Extracts metadata for all videos from a youtube channel and exports it into a csv file.
 
-Be sure to read the file using the tab character ('\t') as field separator in your spreadsheet software of choice.
+Be sure to read the csv file using the tab character `\t` as field separator in your spreadsheet software of choice.
 
 ## Requirements
 
 - youtube-dl
 
-## Installation of the virtualenv (with pipenv)
+## Installation
+
+```
+pip install youtube_extract
+```
+
+If you are an Archlinux user, you can install the AUR package [youtube_extract-git](https://aur.archlinux.org/packages/youtube_extract-git).
+
+### Installation of the virtualenv (with pipenv)
 
 ```
 pipenv install

@@ -24,6 +24,14 @@ pipenv install
 
 ## Usage
 
+If installed :
+
+```
+youtube_extract CHANNEL_URL
+```
+
+Otherwise, in the directory containing the source code :
+
 ```
 python youtube_extract.py CHANNEL_URL
 ```

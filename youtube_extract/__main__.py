@@ -45,7 +45,7 @@ def main():
         exit()
 
     list_dict = []
-    # slow
+    logger.debug("Extracting videos infos for %s.", channel_url)
     entries = ydl_utils.ydl_get_entries(channel_url)
     for entry in entries:
         if entry:
@@ -71,6 +71,7 @@ def main():
     export_file_name = (
         f"youtube_extract_{get_username_from_entries(list_dict)}.csv"
     )
+    logger.debug("Exporting to %s.", export_file_name)
     with open(export_file_name, "w") as f:
         csv_writer = csv.DictWriter(f, list_dict[0].keys(), delimiter="\t")
         csv_writer.writeheader()

@@ -1,0 +1,107 @@
+"""
+Extract metadata for all videos from a youtube channel into a csv file.
+"""
+import logging
+import time
+import argparse
+import ydl_utils
+import csv
+
+# import pandas as pd
+
+logger = logging.getLogger()
+temps_debut = time.time()
+
+
+def is_youtube_channel(channel_url):
+    if "youtube" not in channel_url:
+        return False
+    return True
+
+
+def return_entry(entry, field):
+    try:
+        return entry[field]
+    except Exception as e:
+        logger.error("%s", e)
+        return None
+
+
+def main():
+    args = parse_args()
+    if not args.channel_url:
+        channel_url = str(input("Enter a youtube channel url : "))
+        # logger.info("You entered %s.", channel_url)
+    else:
+        channel_url = args.channel_url
+
+    if not is_youtube_channel(channel_url):
+        logger.error(
+            "%s is not a valid youtube channel url. Exiting.", channel_url
+        )
+        exit()
+
+    list_dict = []
+    # slow
+    entries = ydl_utils.ydl_get_entries(channel_url)
+    for entry in entries:
+        if entry:
+            list_dict.append(
+                {
+                    "author": return_entry(entry, "uploader"),
+                    "channel_url": return_entry(entry, "uploader_url"),
+                    "title": return_entry(entry, "title"),
+                    "webpage_url": return_entry(entry, "webpage_url"),
+                    "view_count": return_entry(entry, "view_count"),
+                    "like_count": return_entry(entry, "like_count"),
+                    "dislike_count": return_entry(entry, "dislike_count"),
+                    "average_rating": return_entry(entry, "average_rating"),
+                    "duration": return_entry(entry, "duration"),
+                    "upload_date": return_entry(entry, "upload_date"),
+                    "tags": return_entry(entry, "tags"),
+                    "categories": return_entry(entry, "categories"),
+                    "description": return_entry(entry, "description"),
+                    "thumbnail": return_entry(entry, "thumbnail"),
+                }
+            )
+
+    with open(
+        f"export_{list_dict[0]['author'].replace(' ', '_')}_infos.csv", "w"
+    ) as f:
+        csv_writer = csv.DictWriter(f, list_dict[0].keys(), delimiter="\t")
+        csv_writer.writeheader()
+        csv_writer.writerows(list_dict)
+
+    # pd.DataFrame.from_records(list_dict).to_csv(
+    #     f"export_{list_dict[0]['author'].replace(' ', '_')}_infos.csv",
+    #     sep="\t",
+    #     index=False,
+    # )
+
+    logger.info("Runtime : %.2f seconds." % (time.time() - temps_debut))
+
+
+def parse_args():
+    format = "%(levelname)s :: %(message)s"
+    parser = argparse.ArgumentParser(
+        description="Extract metadata for all videos from a youtube channel into a csv file."
+    )
+    parser.add_argument(
+        "--debug",
+        help="Display debugging information.",
+        action="store_const",
+        dest="loglevel",
+        const=logging.DEBUG,
+        default=logging.INFO,
+    )
+    parser.add_argument(
+        "channel_url", nargs="?", type=str, help="Youtube channel url."
+    )
+    args = parser.parse_args()
+
+    logging.basicConfig(level=args.loglevel, format=format)
+    return args
+
+
+if __name__ == "__main__":
+    main()

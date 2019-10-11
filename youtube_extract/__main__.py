@@ -72,7 +72,7 @@ def main():
         f"youtube_extract_{get_username_from_entries(list_dict)}.csv"
     )
     logger.debug("Exporting to %s.", export_file_name)
-    with open(export_file_name, "w") as f:
+    with open(export_file_name, "w", encoding="utf-8") as f:
         csv_writer = csv.DictWriter(f, list_dict[0].keys(), delimiter="\t")
         csv_writer.writeheader()
         csv_writer.writerows(list_dict)

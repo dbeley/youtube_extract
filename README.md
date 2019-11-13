@@ -4,6 +4,8 @@ Extracts metadata for all videos from a youtube channel and exports it into a cs
 
 Be sure to read the csv file using the tab character `\t` as field separator in your spreadsheet software of choice.
 
+It's quite slow at the moment and unpredictable, expect ~400 seconds for extracting a channel containing 400 videos.
+
 ## Requirements
 
 - youtube-dl

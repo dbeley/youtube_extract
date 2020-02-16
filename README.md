@@ -24,6 +24,8 @@ It's quite slow at the moment and unpredictable, expect ~400 seconds for extract
 | categories     | Categories                     |
 | description    | Description                    |
 | thumbnail      | Thumbnail URL                  |
+| best_format    | Highest Format Available       |
+| filesize_bytes | Filesize in bytes              |
 
 
 ## Requirements

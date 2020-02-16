@@ -6,6 +6,26 @@ Be sure to read the csv file using the tab character `\t` as field separator in 
 
 It's quite slow at the moment and unpredictable, expect ~400 seconds for extracting a channel containing 400 videos.
 
+### Fields extracted
+
+| Field          | Description                    |
+|----------------|--------------------------------|
+| author         | Channel Name                   |
+| channel_url    | Channel URL                    |
+| title          | Video Title                    |
+| webpage_url    | Video URL                      |
+| view_count     | View Count                     |
+| like_count     | Like Count                     |
+| dislike_count  | Dislike Count                  |
+| average_rating | Rating                         |
+| duration       | Duration in seconds            |
+| upload_date    | Upload Date in YYYYMMDD Format |
+| tags           | Tags                           |
+| categories     | Categories                     |
+| description    | Description                    |
+| thumbnail      | Thumbnail URL                  |
+
+
 ## Requirements
 
 - youtube-dl

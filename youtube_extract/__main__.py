@@ -49,6 +49,8 @@ def main():
     entries = ydl_utils.ydl_get_entries(channel_url)
     for entry in entries:
         if entry:
+            best_format = entry["formats"][-2]["format"]
+            filesize = entry["formats"][-2]["filesize"]
             list_dict.append(
                 {
                     "author": return_entry(entry, "uploader"),
@@ -65,6 +67,8 @@ def main():
                     "categories": return_entry(entry, "categories"),
                     "description": return_entry(entry, "description"),
                     "thumbnail": return_entry(entry, "thumbnail"),
+                    "best_format": best_format,
+                    "filesize_bytes": filesize,
                 }
             )
 

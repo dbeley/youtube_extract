@@ -4,7 +4,7 @@ Extracts metadata for all videos from a youtube channel and exports it into a cs
 
 Be sure to read the csv file using the tab character `\t` as field separator in your spreadsheet software of choice.
 
-It's quite slow at the moment and unpredictable, expect ~400 seconds for extracting a channel containing 400 videos.
+It's quite slow and unpredictable, expect ~400 seconds for extracting all videos metadata from a channel containing 400 videos.
 
 ### Fields extracted
 
@@ -57,7 +57,7 @@ youtube_extract CHANNEL_URL
 Otherwise, in the directory containing the source code :
 
 ```
-python youtube_extract.py CHANNEL_URL
+python youtube_extract CHANNEL_URL
 ```
 
 ## Help

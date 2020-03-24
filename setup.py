@@ -9,7 +9,7 @@ setuptools.setup(
     version=youtube_extract.__version__,
     author="dbeley",
     author_email="dbeley@protonmail.com",
-    description="Extract metadata for all videos from a youtube channel into a csv file.",
+    description="Extract metadata for all videos from a youtube channel into a csv or xlsx file.",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dbeley/youtube_extract",
@@ -22,5 +22,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: POSIX :: Linux",
     ],
-    install_requires=["youtube-dl"],
+    install_requires=["youtube-dl", "pandas"],
 )

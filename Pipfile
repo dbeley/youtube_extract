@@ -9,6 +9,8 @@ twine = "*"
 [packages]
 youtube-extract = {editable = true,path = "."}
 e1839a8 = {editable = true,path = "."}
+pandas = "*"
+openpyxl = "*"
 
 [requires]
 python_version = "3.8"

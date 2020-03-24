@@ -6,6 +6,7 @@ import time
 import argparse
 from . import ydl_utils
 import csv
+import pandas as pd
 
 logger = logging.getLogger()
 temps_debut = time.time()
@@ -33,6 +34,11 @@ def get_username_from_entries(list_dict):
 
 def main():
     args = parse_args()
+    if args.export_format not in ["csv", "xlsx", "xls"]:
+        logger.error(
+            f"{args.export_format} format not supported as export format. Exiting.",
+        )
+        exit()
     if not args.channel_url:
         channel_url = str(input("Enter a youtube channel url : "))
     else:
@@ -73,13 +79,15 @@ def main():
             )
 
     export_file_name = (
-        f"youtube_extract_{get_username_from_entries(list_dict)}.csv"
+        f"youtube_extract_{get_username_from_entries(list_dict)}"
     )
     logger.debug("Exporting to %s.", export_file_name)
-    with open(export_file_name, "w", encoding="utf-8") as f:
-        csv_writer = csv.DictWriter(f, list_dict[0].keys(), delimiter="\t")
-        csv_writer.writeheader()
-        csv_writer.writerows(list_dict)
+    df = pd.DataFrame(list_dict)
+
+    if args.export_format == "csv":
+        df.to_csv(export_file_name + ".csv", index=False, sep="\t")
+    elif args.export_format in ["xls", "xlsx"]:
+        df.to_excel(export_file_name + ".xlsx", index=False)
 
     logger.info("Runtime : %.2f seconds." % (time.time() - temps_debut))
 
@@ -87,7 +95,7 @@ def main():
 def parse_args():
     format = "%(levelname)s :: %(message)s"
     parser = argparse.ArgumentParser(
-        description="Extract metadata for all videos from a youtube channel into a csv file."
+        description="Extract metadata for all videos from a youtube channel into a csv or xlsx file."
     )
     parser.add_argument(
         "--debug",
@@ -97,6 +105,13 @@ def parse_args():
         const=logging.DEBUG,
         default=logging.INFO,
     )
+    parser.add_argument(
+        "-e",
+        "--export_format",
+        type=str,
+        help="Export format (csv or xlsx). Default : csv.",
+        default="csv",
+    ),
     parser.add_argument(
         "channel_url", nargs="?", type=str, help="Youtube channel url."
     )

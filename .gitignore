@@ -1,5 +1,6 @@
 .venv/
 *.csv
+*.xlsx
 tags
 dist/
 *.egg-info/

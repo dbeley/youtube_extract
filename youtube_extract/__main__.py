@@ -36,7 +36,8 @@ def main():
     args = parse_args()
     if args.export_format not in ["csv", "xlsx", "xls"]:
         logger.error(
-            f"{args.export_format} format not supported as export format. Exiting.",
+            "%s format not supported as export format. Exiting.",
+            args.export_format,
         )
         exit()
     if not args.channel_url:

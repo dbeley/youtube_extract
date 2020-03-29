@@ -1,5 +1,8 @@
 # youtube_extract
 
+[![Build Status](https://travis-ci.com/dbeley/youtube_extract.svg?branch=master)](https://travis-ci.com/dbeley/youtube_extract)
+[![codecov](https://codecov.io/gh/dbeley/youtube_extract/branch/master/graph/badge.svg)](https://codecov.io/gh/dbeley/youtube_extract)
+
 Extracts metadata for all videos from a youtube channel and exports it into a csv or xlsx file.
 
 Be sure to read the csv file using the tab character `\t` as field separator in your spreadsheet software of choice.

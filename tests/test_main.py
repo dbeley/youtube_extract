@@ -60,3 +60,15 @@ def test_extract_entries_for_url(url, entries):
     extracted_entries = ydl.extract_entries_for_url(url)
     if not extracted_entries == entries:
         raise AssertionError()
+
+    if len(extracted_entries) != 1:
+        raise AssertionError()
+
+    if extracted_entries[0]["author"] != "Alex Jimenez":
+        raise AssertionError()
+    if extracted_entries[0]["title"] != "color red":
+        raise AssertionError()
+    if extracted_entries[0]["duration"] != 17:
+        raise AssertionError()
+    if extracted_entries[0]["filesize_bytes"] != 150217:
+        raise AssertionError()

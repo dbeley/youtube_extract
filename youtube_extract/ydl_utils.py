@@ -19,7 +19,7 @@ def ydl_get_entries(search_term):
     try:
         ydl_opts = {"logger": MyLogger(), "ignoreerrors": True}
         with YoutubeDL(ydl_opts) as ydl:
-            info_dict = ydl.extract_info(f"{search_term}", download=False)
+            info_dict = ydl.extract_info(search_term, download=False)
         return info_dict["entries"]
     except Exception as e:
         logger.error(

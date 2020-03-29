@@ -5,6 +5,8 @@ verify_ssl = true
 
 [dev-packages]
 twine = "*"
+tox = "*"
+pytest = "*"
 
 [packages]
 youtube-extract = {editable = true,path = "."}

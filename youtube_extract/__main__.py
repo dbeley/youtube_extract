@@ -11,6 +11,8 @@ import pandas as pd
 logger = logging.getLogger()
 temps_debut = time.time()
 
+SUPPORTED_EXPORT_FORMAT = ["csv", "xlsx"]
+
 
 def is_youtube_channel(channel_url):
     if "youtube" not in channel_url:
@@ -28,29 +30,30 @@ def return_entry(entry, field):
         return None
 
 
-def get_username_from_entries(list_dict):
-    return list_dict[0]["author"].replace(" ", "_")
+def get_filename(list_dict):
+    return f"youtube_extract_{list_dict[0]['author'].replace(' ', '_')}"
 
 
-def main():
-    args = parse_args()
-    if args.export_format not in ["csv", "xlsx", "xls"]:
-        logger.error(
-            "%s format not supported as export format. Exiting.",
-            args.export_format,
+def check_args(args):
+    if args.export_format not in SUPPORTED_EXPORT_FORMAT:
+        raise Exception(
+            f"{args.export_format} format not supported as export format. Exiting."
         )
-        exit()
     if not args.channel_url:
-        channel_url = str(input("Enter a youtube channel url : "))
-    else:
-        channel_url = args.channel_url
-
-    if not is_youtube_channel(channel_url):
-        logger.error(
-            "%s is not a valid youtube channel url. Exiting.", channel_url
+        # channel_url = str(input("Enter a youtube channel url : "))
+        raise Exception(
+            f"No url set. Use youtube_extract CHANNEL_URL as command to input an URL."
         )
-        exit()
+    # else:
+    #     channel_url = args.channel_url
 
+    if not is_youtube_channel(args.channel_url):
+        raise Exception(
+            f"{args.channel_url} is not a valid youtube channel url. Exiting."
+        )
+
+
+def extract_entries_for_url(channel_url):
     list_dict = []
     logger.debug("Extracting videos infos for %s.", channel_url)
     entries = ydl_utils.ydl_get_entries(channel_url)
@@ -78,19 +81,32 @@ def main():
                     "filesize_bytes": filesize,
                 }
             )
+    return list_dict
 
-    export_file_name = (
-        f"youtube_extract_{get_username_from_entries(list_dict)}"
-    )
-    logger.debug("Exporting to %s.", export_file_name)
-    df = pd.DataFrame(list_dict)
+
+def main():
+    args = parse_args()
+    logger.debug("youtube_extract : %s.", args)
+
+    try:
+        check_args(args)
+    except Exception as e:
+        logger.error(e)
+        exit(1)
+
+    entries = extract_entries_for_url(args.channel_url)
+    export_filename = get_filename(entries)
+
+    logger.debug("Exporting to %s.", export_filename)
+    df = pd.DataFrame(entries)
 
     if args.export_format == "csv":
-        df.to_csv(export_file_name + ".csv", index=False, sep="\t")
+        df.to_csv(export_filename + ".csv", index=False, sep="\t")
     elif args.export_format in ["xls", "xlsx"]:
-        df.to_excel(export_file_name + ".xlsx", index=False)
+        df.to_excel(export_filename + ".xlsx", index=False)
 
     logger.info("Runtime : %.2f seconds." % (time.time() - temps_debut))
+    exit(0)
 
 
 def parse_args():

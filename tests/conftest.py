@@ -1,10 +1,7 @@
 from youtube_extract import ydl_utils
 from youtube_extract import __main__ as ydl
 import pytest
-import argparse
 import sys
-
-# initial_sys_argv = sys.argv
 
 
 @pytest.fixture(scope="session")
@@ -75,7 +72,6 @@ def args_incorrect():
 
 @pytest.fixture(scope="session")
 def args_incorrect_2():
-    url = "https://www.youtube.com/channel/UCz4wfOcIw_OezAZTQ0SjiYA/videos"
     sys.argv = ["youtube_extract", "--export_format", "xlsx"]
     args = ydl.parse_args()
     return args

@@ -4,7 +4,7 @@ Extract metadata for all videos from a youtube channel into a csv file.
 import logging
 import time
 import argparse
-from youtube_extract import ydl_utils
+from . import ydl_utils
 import pandas as pd
 
 logger = logging.getLogger()
@@ -128,9 +128,7 @@ def parse_args():
         help="Export format (csv or xlsx). Default : csv.",
         default="csv",
     ),
-    parser.add_argument(
-        "channel_url", nargs="?", type=str, help="Youtube channel url."
-    )
+    parser.add_argument("channel_url", nargs="?", type=str, help="Youtube channel url.")
     args = parser.parse_args()
 
     logging.basicConfig(level=args.loglevel, format=format)

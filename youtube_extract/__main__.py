@@ -4,7 +4,7 @@ Extract metadata for all videos from a youtube channel into a csv file.
 import logging
 import time
 import argparse
-from . import ydl_utils
+from youtube_extract import ydl_utils
 import pandas as pd
 
 logger = logging.getLogger()

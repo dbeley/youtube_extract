@@ -1,0 +1,12 @@
+-i https://pypi.org/simple
+-e .
+-e .
+et-xmlfile==1.0.1
+jdcal==1.4.1
+numpy==1.18.2
+openpyxl==3.0.3
+pandas==1.0.3
+python-dateutil==2.8.1
+pytz==2019.3
+six==1.14.0
+youtube-dl==2020.3.24

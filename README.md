@@ -64,9 +64,9 @@ youtube_extract CHANNEL_URL -e xlsx
 Otherwise, in the directory containing the source code :
 
 ```
-python youtube_extract CHANNEL_URL
+python -m youtube_extract CHANNEL_URL
 # or xlsx format
-python youtube_extract CHANNEL_URL -e xlsx
+python -m youtube_extract CHANNEL_URL -e xlsx
 ```
 
 ## Help

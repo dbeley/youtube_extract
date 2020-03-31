@@ -5,6 +5,6 @@
 Extract metadata for all videos from a youtube channel into a csv or xlsx file.
 """
 
-__version__ = "1.3.1"
+__version__ = "1.3.2"
 
 name = "youtube_extract"

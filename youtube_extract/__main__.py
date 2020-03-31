@@ -43,8 +43,6 @@ def check_args(args):
         raise Exception(
             f"No url set. Use youtube_extract CHANNEL_URL as command to input an URL."
         )
-    # else:
-    #     channel_url = args.channel_url
 
     if not is_youtube_channel(args.channel_url):
         raise Exception(

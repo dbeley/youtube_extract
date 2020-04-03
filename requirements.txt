@@ -1,6 +1,5 @@
 -i https://pypi.org/simple
 -e .
--e .
 et-xmlfile==1.0.1
 jdcal==1.4.1
 numpy==1.18.2

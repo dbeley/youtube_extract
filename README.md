@@ -3,13 +3,13 @@
 [![Build Status](https://travis-ci.com/dbeley/youtube_extract.svg?branch=master)](https://travis-ci.com/dbeley/youtube_extract)
 [![codecov](https://codecov.io/gh/dbeley/youtube_extract/branch/master/graph/badge.svg)](https://codecov.io/gh/dbeley/youtube_extract)
 
-Extracts metadata for all videos from a youtube channel and exports it into a csv or xlsx file.
+Extract metadata for all videos from a youtube channel and exports it into a csv or xlsx file.
 
 Be sure to read the csv file using the tab character `\t` as field separator in your spreadsheet software of choice.
 
-It's quite slow and unpredictable, expect ~400 seconds for extracting all videos metadata from a channel containing 400 videos.
+As of now it's quite slow and unpredictable, expect ~400 seconds for extracting all videos metadata from a channel containing 400 videos.
 
-### Fields extracted
+## Fields extracted
 
 | Field          | Description                    |
 |----------------|--------------------------------|
@@ -30,14 +30,15 @@ It's quite slow and unpredictable, expect ~400 seconds for extracting all videos
 | best_format    | Highest Format Available       |
 | filesize_bytes | Filesize in bytes              |
 
-
 ## Requirements
 
-- youtube-dl
-- pandas
-- openpyxl
+  - youtube-dl
+  - pandas
+  - openpyxl
 
 ## Installation
+
+### Preferred install method
 
 ```
 pip install youtube_extract
@@ -45,10 +46,33 @@ pip install youtube_extract
 
 If you are an Archlinux user, you can install the AUR package [youtube_extract-git](https://aur.archlinux.org/packages/youtube_extract-git).
 
-### Installation of the virtualenv (with pipenv)
+### Run from source
+
+#### First method
 
 ```
-pipenv install
+git clone https://github.com/dbeley/youtube_extract
+cd youtube_extract
+python setup.py install
+youtube_extract -h
+```
+
+#### Second method (with pip)
+
+```
+git clone https://github.com/dbeley/youtube_extract
+cd youtube_extract
+pip install -r requirements.txt
+python -m youtube_extract -h
+```
+
+### Third method (with pipenv)
+
+```
+git clone https://github.com/dbeley/youtube_extract
+cd youtube_extract
+pipenv install '-e .'
+pipenv run youtube_extract -h
 ```
 
 ## Usage
@@ -72,7 +96,7 @@ python -m youtube_extract CHANNEL_URL -e xlsx
 ## Help
 
 ```
-python youtube_extract.py -h
+youtube_extract -h
 ```
 
 ```
@@ -88,5 +112,5 @@ optional arguments:
   -h, --help            show this help message and exit
   --debug               Display debugging information.
   -e EXPORT_FORMAT, --export_format EXPORT_FORMAT
-                        Export format (csv or xlsx). Default : csv
+                        Export format (csv or xlsx). Default : csv.
 ```

@@ -33,9 +33,9 @@ As of now it's quite slow and unpredictable, expect ~400 seconds for extracting 
 
 ## Requirements
 
-  - youtube-dl
-  - pandas
-  - openpyxl
+- youtube-dl
+- pandas
+- openpyxl
 
 ## Installation
 

@@ -1,5 +1,6 @@
 # youtube_extract
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/131858400ee84232a50c03f4b06c9344)](https://app.codacy.com/manual/dbeley/youtube_extract?utm_source=github.com&utm_medium=referral&utm_content=dbeley/youtube_extract&utm_campaign=Badge_Grade_Dashboard)
 [![Build Status](https://travis-ci.com/dbeley/youtube_extract.svg?branch=master)](https://travis-ci.com/dbeley/youtube_extract)
 [![codecov](https://codecov.io/gh/dbeley/youtube_extract/branch/master/graph/badge.svg)](https://codecov.io/gh/dbeley/youtube_extract)
 

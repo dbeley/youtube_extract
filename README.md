@@ -67,7 +67,7 @@ pip install -r requirements.txt
 python -m youtube_extract -h
 ```
 
-### Third method (with pipenv)
+#### Third method (with pipenv)
 
 ```
 git clone https://github.com/dbeley/youtube_extract

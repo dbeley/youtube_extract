@@ -16,7 +16,7 @@ SUPPORTED_EXPORT_FORMAT = ["csv", "xlsx"]
 def is_youtube_channel(channel_url):
     if "youtube" not in channel_url:
         return False
-    if not any(x in channel_url for x in ["channel", "user"]):
+    if not any(x in channel_url for x in ["/c/", "channel", "user"]):
         return False
     return True
 

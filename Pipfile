@@ -9,8 +9,6 @@ tox = "*"
 pytest = "*"
 
 [packages]
-youtube-extract = {editable = true, path = "."}
-e1839a8 = {editable = true,path = "."}
 pandas = "*"
 openpyxl = "*"
 

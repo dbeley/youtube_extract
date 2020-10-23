@@ -61,14 +61,14 @@ def test_extract_entries_for_url(url, entries):
     if not extracted_entries == entries:
         raise AssertionError()
 
-    if len(extracted_entries) != 1:
+    if len(extracted_entries) != 2:
         raise AssertionError()
 
-    if extracted_entries[0]["author"] != "Alex Jimenez":
+    if extracted_entries[-1]["author"] != "Alex Jimenez":
         raise AssertionError()
-    if extracted_entries[0]["title"] != "color red":
+    if extracted_entries[-1]["title"] != "color red":
         raise AssertionError()
-    if extracted_entries[0]["duration"] != 17:
+    if extracted_entries[-1]["duration"] != 17:
         raise AssertionError()
-    if extracted_entries[0]["filesize_bytes"] != 150217:
+    if extracted_entries[-1]["filesize_bytes"] != 150217:
         raise AssertionError()

@@ -11,6 +11,7 @@ pytest = "*"
 [packages]
 pandas = "*"
 openpyxl = "*"
+youtube-extract = {editable = true, path = "."}
 
 [requires]
 python_version = "3.8"

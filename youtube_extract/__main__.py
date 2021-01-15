@@ -21,14 +21,6 @@ def is_youtube_channel(channel_url):
     return True
 
 
-def return_entry(entry, field):
-    try:
-        return entry[field]
-    except Exception as e:
-        logger.error("%s", e)
-        return None
-
-
 def get_filename(list_dict):
     return f"youtube_extract_{list_dict[0]['author'].replace(' ', '_')}"
 
@@ -39,7 +31,6 @@ def check_args(args):
             f"{args.export_format} format not supported as export format. Exiting."
         )
     if not args.channel_url:
-        # channel_url = str(input("Enter a youtube channel url : "))
         raise Exception(
             f"No url set. Use youtube_extract CHANNEL_URL as command to input an URL."
         )
@@ -60,20 +51,20 @@ def extract_entries_for_url(channel_url):
             filesize = entry["formats"][-2]["filesize"]
             list_dict.append(
                 {
-                    "author": return_entry(entry, "uploader"),
-                    "channel_url": return_entry(entry, "uploader_url"),
-                    "title": return_entry(entry, "title"),
-                    "webpage_url": return_entry(entry, "webpage_url"),
-                    "view_count": return_entry(entry, "view_count"),
-                    "like_count": return_entry(entry, "like_count"),
-                    "dislike_count": return_entry(entry, "dislike_count"),
-                    "average_rating": return_entry(entry, "average_rating"),
-                    "duration": return_entry(entry, "duration"),
-                    "upload_date": return_entry(entry, "upload_date"),
-                    "tags": return_entry(entry, "tags"),
-                    "categories": return_entry(entry, "categories"),
-                    "description": return_entry(entry, "description"),
-                    "thumbnail": return_entry(entry, "thumbnail"),
+                    "author": entry.get("uploader", ""),
+                    "channel_url": entry.get("uploader_url", ""),
+                    "title": entry.get("title", ""),
+                    "webpage_url": entry.get("webpage_url", ""),
+                    "view_count": entry.get("view_count", ""),
+                    "like_count": entry.get("like_count", ""),
+                    "dislike_count": entry.get("dislike_count", ""),
+                    "average_rating": entry.get("average_rating", ""),
+                    "duration": entry.get("duration", ""),
+                    "upload_date": entry.get("upload_date", ""),
+                    "tags": entry.get("tags", ""),
+                    "categories": entry.get("categories", ""),
+                    "description": entry.get("description", ""),
+                    "thumbnail": entry.get("thumbnail", ""),
                     "best_format": best_format,
                     "filesize_bytes": filesize,
                 }

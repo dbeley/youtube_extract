@@ -1,7 +1,7 @@
 # youtube_extract
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/131858400ee84232a50c03f4b06c9344)](https://app.codacy.com/manual/dbeley/youtube_extract?utm_source=github.com&utm_medium=referral&utm_content=dbeley/youtube_extract&utm_campaign=Badge_Grade_Dashboard)
-[![Build Status](https://travis-ci.com/dbeley/youtube_extract.svg?branch=master)](https://travis-ci.com/dbeley/youtube_extract)
+![Build Status](https://github.com/dbeley/youtube_extract/workflows/CI/badge.svg)
 [![codecov](https://codecov.io/gh/dbeley/youtube_extract/branch/master/graph/badge.svg)](https://codecov.io/gh/dbeley/youtube_extract)
 
 Extract metadata for all videos from a youtube channel and exports it into a csv or xlsx file.
@@ -49,7 +49,7 @@ If you are an Archlinux user, you can install the AUR package [youtube_extract-g
 
 ### Run from source
 
-#### First method
+#### First method (installing the youtube_extract package)
 
 ```
 git clone https://github.com/dbeley/youtube_extract
@@ -58,7 +58,7 @@ python setup.py install
 youtube_extract -h
 ```
 
-#### Second method (with pip)
+#### Second method (installing only the dependencies)
 
 ```
 git clone https://github.com/dbeley/youtube_extract
@@ -67,7 +67,7 @@ pip install -r requirements.txt
 python -m youtube_extract -h
 ```
 
-#### Third method (with pipenv)
+#### Third method (installing the youtube_extract package with pipenv)
 
 ```
 git clone https://github.com/dbeley/youtube_extract

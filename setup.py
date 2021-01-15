@@ -15,9 +15,7 @@ setuptools.setup(
     url="https://github.com/dbeley/youtube_extract",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    entry_points={
-        "console_scripts": ["youtube_extract=youtube_extract.__main__:main"]
-    },
+    entry_points={"console_scripts": ["youtube_extract=youtube_extract.__main__:main"]},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: POSIX :: Linux",

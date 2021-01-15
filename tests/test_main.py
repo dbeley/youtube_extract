@@ -25,12 +25,6 @@ def test_is_youtube_channel():
             raise AssertionError()
 
 
-def test_return_entry():
-    test_dict = {"author": "authorvalue"}
-    if not ydl.return_entry(test_dict, "author") == "authorvalue":
-        raise AssertionError()
-
-
 def test_get_filename(entries):
     if not ydl.get_filename(entries) == "youtube_extract_Alex_Jimenez":
         raise AssertionError()

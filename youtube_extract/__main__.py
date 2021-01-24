@@ -45,6 +45,10 @@ def extract_entries_for_url(channel_url):
     list_dict = []
     logger.debug("Extracting videos infos for %s.", channel_url)
     entries = ydl_utils.ydl_get_entries(channel_url)
+    # workaround if channel videos are seen as a playlist
+    if "_type" in entries[0]:
+        if entries[0]["_type"] == "playlist":
+            entries = entries[0]["entries"]
     for entry in entries:
         if entry:
             best_format = entry["formats"][-2]["format"]

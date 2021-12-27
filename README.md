@@ -31,6 +31,7 @@ As of now it's quite slow and unpredictable, expect ~400 seconds for extracting 
 
 ## Requirements
 
+- python >=3.8
 - yt-dlp
 - pandas
 - openpyxl

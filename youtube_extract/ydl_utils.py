@@ -1,5 +1,5 @@
 import logging
-from youtube_dl import YoutubeDL
+from yt_dlp import YoutubeDL
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,5 @@ def ydl_get_entries(search_term):
             info_dict = ydl.extract_info(search_term, download=False)
         return info_dict["entries"]
     except Exception as e:
-        logger.error(
-            "Error with getting the youtube url for %s : %s.", search_term, e
-        )
+        logger.error("Error with getting the youtube url for %s : %s.", search_term, e)
         return None

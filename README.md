@@ -20,8 +20,6 @@ As of now it's quite slow and unpredictable, expect ~400 seconds for extracting 
 | webpage_url    | Video URL                      |
 | view_count     | View Count                     |
 | like_count     | Like Count                     |
-| dislike_count  | Dislike Count                  |
-| average_rating | Rating                         |
 | duration       | Duration in seconds            |
 | upload_date    | Upload Date in YYYYMMDD Format |
 | tags           | Tags                           |
@@ -33,7 +31,7 @@ As of now it's quite slow and unpredictable, expect ~400 seconds for extracting 
 
 ## Requirements
 
-- youtube-dl
+- yt-dlp
 - pandas
 - openpyxl
 

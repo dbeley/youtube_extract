@@ -61,8 +61,6 @@ def extract_entries_for_url(channel_url):
                     "webpage_url": entry.get("webpage_url", ""),
                     "view_count": entry.get("view_count", ""),
                     "like_count": entry.get("like_count", ""),
-                    "dislike_count": entry.get("dislike_count", ""),
-                    "average_rating": entry.get("average_rating", ""),
                     "duration": entry.get("duration", ""),
                     "upload_date": entry.get("upload_date", ""),
                     "tags": entry.get("tags", ""),

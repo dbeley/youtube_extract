@@ -20,5 +20,5 @@ setuptools.setup(
         "Programming Language :: Python :: 3",
         "Operating System :: POSIX :: Linux",
     ],
-    install_requires=["yt-dlp", "pandas", "numpy", "openpyxl"],
+    install_requires=["yt-dlp", "pandas", "openpyxl"],
 )

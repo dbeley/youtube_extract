@@ -7,3 +7,4 @@ dist/
 *.sh
 __pycache__/
 build/
+.direnv/

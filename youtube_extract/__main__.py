@@ -16,7 +16,7 @@ SUPPORTED_EXPORT_FORMAT = ["csv", "xlsx"]
 def is_youtube_channel(channel_url):
     if "youtube" not in channel_url:
         return False
-    if not any(x in channel_url for x in ["/c/", "channel", "user"]):
+    if not any(x in channel_url for x in ["/c/", "channel", "user", "@"]):
         return False
     return True
 
@@ -51,8 +51,8 @@ def extract_entries_for_url(channel_url):
             entries = entries[0]["entries"]
     for entry in entries:
         if entry:
-            best_format = entry["formats"][-2]["format"]
-            filesize = entry["formats"][-2]["filesize"]
+            best_format = entry["formats"][-2].get("format", "")
+            filesize = entry["formats"][-2].get("filesize", "")
             list_dict.append(
                 {
                     "author": entry.get("uploader", ""),
@@ -78,11 +78,7 @@ def main():
     args = parse_args()
     logger.debug("youtube_extract : %s.", args)
 
-    try:
-        check_args(args)
-    except Exception as e:
-        logger.error(e)
-        exit(1)
+    check_args(args)
 
     entries = extract_entries_for_url(args.channel_url)
     export_filename = get_filename(entries)
@@ -96,7 +92,6 @@ def main():
         df.to_excel(export_filename + ".xlsx", index=False)
 
     logger.info("Runtime : %.2f seconds." % (time.time() - temps_debut))
-    exit(0)
 
 
 def parse_args():
@@ -118,7 +113,7 @@ def parse_args():
         type=str,
         help="Export format (csv or xlsx). Default : csv.",
         default="csv",
-    ),
+    )
     parser.add_argument("channel_url", nargs="?", type=str, help="Youtube channel url.")
     args = parser.parse_args()
 

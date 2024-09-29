@@ -48,31 +48,11 @@ If you are an Archlinux user, you can install the AUR package [youtube_extract-g
 
 ### Run from source
 
-#### First method (installing the youtube_extract package)
-
 ```
 git clone https://github.com/dbeley/youtube_extract
 cd youtube_extract
 python setup.py install
 youtube_extract -h
-```
-
-#### Second method (installing only the dependencies)
-
-```
-git clone https://github.com/dbeley/youtube_extract
-cd youtube_extract
-pip install -r requirements.txt
-python -m youtube_extract -h
-```
-
-#### Third method (installing the youtube_extract package with pipenv)
-
-```
-git clone https://github.com/dbeley/youtube_extract
-cd youtube_extract
-pipenv install '-e .'
-pipenv run youtube_extract -h
 ```
 
 ## Usage

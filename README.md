@@ -51,6 +51,7 @@ If you are an Archlinux user, you can install the AUR package [youtube_extract-g
 ```
 git clone https://github.com/dbeley/youtube_extract
 cd youtube_extract
+pip install yt-dlp pandas openpyxl
 python setup.py install
 youtube_extract -h
 ```

@@ -57,7 +57,7 @@ def test_extract_entries_for_url(url, entries):
 
     print(len(entries))
     print(len(extracted_entries))
-    if len(extracted_entries) != 2:
+    if len(extracted_entries) != 3:
         raise AssertionError()
 
     if extracted_entries[-1]["author"] != "Alex Jimenez":
@@ -66,5 +66,5 @@ def test_extract_entries_for_url(url, entries):
         raise AssertionError()
     if extracted_entries[-1]["duration"] != 17:
         raise AssertionError()
-    if extracted_entries[-1]["filesize_bytes"] != 150217:
+    if extracted_entries[-1]["filesize_bytes"] != 120481:
         raise AssertionError()

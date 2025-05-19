@@ -40,7 +40,7 @@ As of now it's quite slow and unpredictable, expect ~400 seconds for extracting 
 
 ### Preferred install method
 
-```
+```bash
 pip install youtube_extract
 ```
 
@@ -48,7 +48,7 @@ If you are an Archlinux user, you can install the AUR package [youtube_extract-g
 
 ### Run from source
 
-```
+```bash
 git clone https://github.com/dbeley/youtube_extract
 cd youtube_extract
 pip install yt-dlp pandas openpyxl
@@ -60,7 +60,7 @@ youtube_extract -h
 
 If installed :
 
-```
+```bash
 youtube_extract CHANNEL_URL
 # or xlsx format
 youtube_extract CHANNEL_URL -e xlsx
@@ -68,20 +68,45 @@ youtube_extract CHANNEL_URL -e xlsx
 
 Otherwise, in the directory containing the source code :
 
-```
+```bash
 python -m youtube_extract CHANNEL_URL
 # or xlsx format
 python -m youtube_extract CHANNEL_URL -e xlsx
 ```
 
-## Help
+### Using Cookies
+
+The `--cookies` option allows you to provide a Netscape-formatted cookies file which can be used to access age-restricted content, private videos, or content that requires authentication.
+You can obtain a cookies file using browser extensions like:
+
+- [cookies.txt](https://chromewebstore.google.com/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc?pli=1) for Chrome
+- [cookies.txt](https://addons.mozilla.org/en-US/firefox/addon/cookies-txt/) for Firefox
+
+The cookies file should be in the standard Netscape format:
+
+#### Netscape HTTP Cookie File
 
 ```
+.domain.com TRUE / FALSE 1234567890 name value
+```
+
+### Rate Limiting
+
+YouTube may rate-limit your requests if you extract data from channels with many videos. To avoid this, you can use the --sleep-requests option to add a delay between requests:
+
+```bash
+youtube_extract CHANNEL_URL --sleep-requests 10
+```
+This will pause for 10 seconds between requests, which can help avoid rate limiting at the cost of longer extraction time.
+
+## Help
+
+```bash
 youtube_extract -h
 ```
 
 ```
-usage: youtube_extract [-h] [--debug] [-e EXPORT_FORMAT] [channel_url]
+usage: youtube_extract [-h] [--debug] [-e EXPORT_FORMAT] [--cookies COOKIE_FILE] [channel_url]
 
 Extract metadata for all videos from a youtube channel into a csv or xlsx
 file.
@@ -94,4 +119,8 @@ optional arguments:
   --debug               Display debugging information.
   -e EXPORT_FORMAT, --export_format EXPORT_FORMAT
                         Export format (csv or xlsx). Default : csv.
+  --cookies COOKIE_FILE Path to cookies.txt file. 
+                        Use for age-restricted content.
+  --sleep-requests SLEEP_REQUESTS
+                        Number of seconds to sleep between requests during data extraction.
 ```

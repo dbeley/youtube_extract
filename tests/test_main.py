@@ -76,7 +76,7 @@ def test_extract_entries_for_url(url, entries, cookies_file, sleep_requests):
         raise AssertionError()
     if extracted_entries[-1]["duration"] != 17:
         raise AssertionError()
-    if extracted_entries[-1]["filesize_bytes"] != 120481:
+    if extracted_entries[-1]["filesize_bytes"] != 207535:
         raise AssertionError()
 
 

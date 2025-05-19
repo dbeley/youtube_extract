@@ -107,7 +107,7 @@ youtube_extract -h
 ```
 
 ```
-usage: youtube_extract [-h] [--debug] [-e EXPORT_FORMAT] [--cookies COOKIE_FILE] [channel_url]
+usage: youtube_extract [-h] [--debug] [-e EXPORT_FORMAT] [--cookies COOKIE_FILE] [--sleep-requests SECONDS] [channel_url]
 
 Extract metadata for all videos from a youtube channel into a csv or xlsx
 file.
@@ -122,6 +122,6 @@ optional arguments:
                         Export format (csv or xlsx). Default : csv.
   --cookies COOKIE_FILE Path to cookies.txt file. 
                         Use for age-restricted content.
-  --sleep-requests SLEEP_REQUESTS
+  --sleep-requests SECONDS
                         Number of seconds to sleep between requests during data extraction.
 ```

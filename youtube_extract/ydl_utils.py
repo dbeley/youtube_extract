@@ -25,7 +25,7 @@ def ydl_get_entries(search_term, cookies_file=None, sleep_requests=None):
             
         # Add sleep between requests if provided
         if sleep_requests is not None:
-            ydl_opts["sleep_interval"] = sleep_requests
+            ydl_opts["sleep_interval_requests"] = sleep_requests
             
         with YoutubeDL(ydl_opts) as ydl:
             info_dict = ydl.extract_info(search_term, download=False)

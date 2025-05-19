@@ -98,6 +98,7 @@ YouTube may rate-limit your requests if you extract data from channels with many
 youtube_extract CHANNEL_URL --sleep-requests 10
 ```
 This will pause for 10 seconds between requests, which can help avoid rate limiting at the cost of longer extraction time.
+See: https://github.com/yt-dlp/yt-dlp/wiki/Extractors#this-content-isnt-available-try-again-later
 
 ## Help
 

@@ -9,3 +9,5 @@ __pycache__/
 build/
 .direnv/
 venv/
+cookies.txt
+

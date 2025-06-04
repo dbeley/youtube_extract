@@ -41,10 +41,10 @@ def check_args(args):
         )
 
 
-def extract_entries_for_url(channel_url):
+def extract_entries_for_url(channel_url, cookies_file=None, sleep_requests=None):
     list_dict = []
     logger.debug("Extracting videos infos for %s.", channel_url)
-    entries = ydl_utils.ydl_get_entries(channel_url)
+    entries = ydl_utils.ydl_get_entries(channel_url, cookies_file, sleep_requests)
     # workaround if channel videos are seen as a playlist
     if "_type" in entries[0]:
         if entries[0]["_type"] == "playlist":
@@ -80,7 +80,7 @@ def main():
 
     check_args(args)
 
-    entries = extract_entries_for_url(args.channel_url)
+    entries = extract_entries_for_url(args.channel_url, args.cookies, args.sleep_requests)
     export_filename = get_filename(entries)
 
     logger.debug("Exporting to %s.", export_filename)
@@ -115,6 +115,21 @@ def parse_args():
         default="csv",
     )
     parser.add_argument("channel_url", nargs="?", type=str, help="Youtube channel url.")
+
+    parser.add_argument(
+        "--cookies",
+        type=str,
+        help="Path to cookies.txt file",
+        default=None,
+    )
+    
+    parser.add_argument(
+        "--sleep-requests",
+        type=float,
+        help="Number of seconds to sleep between requests during data extraction",
+        default=None,
+    )
+
     args = parser.parse_args()
 
     logging.basicConfig(level=args.loglevel, format=format)

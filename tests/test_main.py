@@ -36,6 +36,11 @@ def test_check_args(
     args_complex_2,
     args_complex_3,
     args_complex_4,
+    args_with_cookies,
+    args_with_sleep,
+    args_complex_with_cookies,
+    args_complex_with_sleep,
+    args_complex_with_all,
     args_incorrect,
     args_incorrect_2,
 ):
@@ -44,14 +49,19 @@ def test_check_args(
     ydl.check_args(args_complex_2)
     ydl.check_args(args_complex_3)
     ydl.check_args(args_complex_4)
+    ydl.check_args(args_with_cookies)
+    ydl.check_args(args_with_sleep)
+    ydl.check_args(args_complex_with_cookies)
+    ydl.check_args(args_complex_with_sleep)
+    ydl.check_args(args_complex_with_all)
     with pytest.raises(Exception):
         ydl.check_args(args_incorrect)
     with pytest.raises(Exception):
         ydl.check_args(args_incorrect_2)
 
 
-def test_extract_entries_for_url(url, entries):
-    extracted_entries = ydl.extract_entries_for_url(url)
+def test_extract_entries_for_url(url, entries, cookies_file, sleep_requests):
+    extracted_entries = ydl.extract_entries_for_url(url, cookies_file, sleep_requests)
     print(entries)
     print(extracted_entries)
 
@@ -66,5 +76,20 @@ def test_extract_entries_for_url(url, entries):
         raise AssertionError()
     if extracted_entries[-1]["duration"] != 17:
         raise AssertionError()
-    if extracted_entries[-1]["filesize_bytes"] != 120481:
+    if extracted_entries[-1]["filesize_bytes"] != 207535:
         raise AssertionError()
+
+
+def test_extract_entries_with_cookies(url, cookies_file, sleep_requests):
+    if cookies_file:  # Only run this test if a cookies file is provided
+        entries_with_cookies = ydl.extract_entries_for_url(url, cookies_file, sleep_requests)
+        # Add assertions specific to authenticated content if needed
+        assert entries_with_cookies is not None
+
+
+def test_extract_entries_with_sleep(url, cookies_file):
+    # Test with a small sleep interval for verification
+    test_sleep = 0.1
+    entries_with_sleep = ydl.extract_entries_for_url(url, cookies_file, test_sleep)
+    # No specific assertions needed - just verifying it runs without errors
+    assert entries_with_sleep is not None

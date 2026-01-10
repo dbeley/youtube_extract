@@ -1,19 +1,21 @@
-"""
-Extract metadata for all videos from a youtube channel into a csv file.
-"""
+"""Extract metadata for all videos from a youtube channel into a csv file."""
+
+import argparse
 import logging
 import time
-import argparse
-from youtube_extract import ydl_utils
+
 import pandas as pd
 
+from youtube_extract import ydl_utils
+
 logger = logging.getLogger()
-temps_debut = time.time()
+START_TIME = time.time()
 
-SUPPORTED_EXPORT_FORMAT = ["csv", "xlsx"]
+SUPPORTED_EXPORT_FORMATS = ["csv", "xlsx"]
 
 
-def is_youtube_channel(channel_url):
+def is_youtube_channel(channel_url: str) -> bool:
+    """Check if the URL is a valid YouTube channel URL."""
     if "youtube" not in channel_url:
         return False
     if not any(x in channel_url for x in ["/c/", "channel", "user", "@"]):
@@ -21,34 +23,43 @@ def is_youtube_channel(channel_url):
     return True
 
 
-def get_filename(list_dict):
+def get_filename(list_dict: list) -> str:
+    """Generate filename from channel author name."""
+    if not list_dict:
+        raise ValueError("list_dict cannot be empty")
     return f"youtube_extract_{list_dict[0]['author'].replace(' ', '_')}"
 
 
-def check_args(args):
-    if args.export_format not in SUPPORTED_EXPORT_FORMAT:
-        raise Exception(
-            f"{args.export_format} format not supported as export format. Exiting."
+def check_args(args: argparse.Namespace) -> None:
+    """Validate command line arguments."""
+    if args.export_format not in SUPPORTED_EXPORT_FORMATS:
+        raise ValueError(
+            f"{args.export_format} format not supported as export format. "
+            f"Supported formats: {', '.join(SUPPORTED_EXPORT_FORMATS)}"
         )
     if not args.channel_url:
-        raise Exception(
-            f"No url set. Use youtube_extract CHANNEL_URL as command to input an URL."
-        )
+        raise ValueError("No url set. Use youtube_extract CHANNEL_URL as command to input an URL.")
 
     if not is_youtube_channel(args.channel_url):
-        raise Exception(
-            f"{args.channel_url} is not a valid youtube channel url. Exiting."
-        )
+        raise ValueError(f"{args.channel_url} is not a valid youtube channel url.")
 
 
-def extract_entries_for_url(channel_url, cookies_file=None, sleep_requests=None):
-    list_dict = []
+def extract_entries_for_url(
+    channel_url: str, cookies_file: str | None = None, sleep_requests: float | None = None
+) -> list:
+    """Extract video entries from a YouTube channel URL."""
+    list_dict: list[dict] = []
     logger.debug("Extracting videos infos for %s.", channel_url)
     entries = ydl_utils.ydl_get_entries(channel_url, cookies_file, sleep_requests)
+
+    if not entries:
+        logger.warning("No entries found for %s", channel_url)
+        return list_dict
+
     # workaround if channel videos are seen as a playlist
-    if "_type" in entries[0]:
-        if entries[0]["_type"] == "playlist":
-            entries = entries[0]["entries"]
+    if entries and "_type" in entries[0] and entries[0]["_type"] == "playlist":
+        entries = entries[0]["entries"]
+
     for entry in entries:
         if entry:
             best_format = entry["formats"][-2].get("format", "")
@@ -74,13 +85,19 @@ def extract_entries_for_url(channel_url, cookies_file=None, sleep_requests=None)
     return list_dict
 
 
-def main():
+def main() -> None:
+    """Main entry point."""
     args = parse_args()
     logger.debug("youtube_extract : %s.", args)
 
     check_args(args)
 
     entries = extract_entries_for_url(args.channel_url, args.cookies, args.sleep_requests)
+
+    if not entries:
+        logger.error("No entries extracted. Exiting.")
+        return
+
     export_filename = get_filename(entries)
 
     logger.debug("Exporting to %s.", export_filename)
@@ -91,11 +108,11 @@ def main():
     elif args.export_format in ["xls", "xlsx"]:
         df.to_excel(export_filename + ".xlsx", index=False)
 
-    logger.info("Runtime : %.2f seconds." % (time.time() - temps_debut))
+    logger.info("Runtime : %.2f seconds.", time.time() - START_TIME)
 
 
-def parse_args():
-    format = "%(levelname)s :: %(message)s"
+def parse_args() -> argparse.Namespace:
+    """Parse command line arguments."""
     parser = argparse.ArgumentParser(
         description="Extract metadata for all videos from a youtube channel into a csv or xlsx file."
     )
@@ -111,7 +128,7 @@ def parse_args():
         "-e",
         "--export_format",
         type=str,
-        help="Export format (csv or xlsx). Default : csv.",
+        help="Export format (csv or xlsx). Default: csv.",
         default="csv",
     )
     parser.add_argument("channel_url", nargs="?", type=str, help="Youtube channel url.")
@@ -122,7 +139,7 @@ def parse_args():
         help="Path to cookies.txt file",
         default=None,
     )
-    
+
     parser.add_argument(
         "--sleep-requests",
         type=float,
@@ -132,7 +149,8 @@ def parse_args():
 
     args = parser.parse_args()
 
-    logging.basicConfig(level=args.loglevel, format=format)
+    log_format = "%(levelname)s :: %(message)s"
+    logging.basicConfig(level=args.loglevel, format=log_format)
     return args
 
 

@@ -10,4 +10,8 @@ build/
 .direnv/
 venv/
 cookies.txt
-
+.pytest_cache/
+.coverage
+coverage.xml
+.mypy_cache/
+.ruff_cache/

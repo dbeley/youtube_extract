@@ -1,20 +1,16 @@
-with import <nixpkgs> { };
+{ pkgs ? import <nixpkgs> {} }:
 
-let
-  pythonPackages = python3Packages;
-in pkgs.mkShell {
-  buildInputs = [
-    pythonPackages.python
+pkgs.mkShell {
+  buildInputs = with pkgs; [
+    python313
+    python313Packages.pip
+    python313Packages.virtualenv
+    python313Packages.openpyxl
+    python313Packages.pandas
+    python313Packages.pytest
 
-    pythonPackages.pip
-    pythonPackages.setuptools
-    pythonPackages.pandas
-    pythonPackages.openpyxl
-    pythonPackages.twine
-
-    pre-commit
     yt-dlp
     ffmpeg
+    prek
   ];
-
 }

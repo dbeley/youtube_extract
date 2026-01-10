@@ -1,5 +1,6 @@
-from youtube_extract import __main__ as ydl
 import pytest
+
+from youtube_extract import __main__ as ydl
 
 
 def test_is_youtube_channel():
@@ -17,17 +18,16 @@ def test_is_youtube_channel():
     ]
 
     for url in urls_correct:
-        if not ydl.is_youtube_channel(url):
-            raise AssertionError()
+        assert ydl.is_youtube_channel(url), f"Expected {url} to be recognized as YouTube channel"
 
     for url in urls_incorrect:
-        if ydl.is_youtube_channel(url):
-            raise AssertionError()
+        assert not ydl.is_youtube_channel(
+            url
+        ), f"Expected {url} to NOT be recognized as YouTube channel"
 
 
 def test_get_filename(entries):
-    if not ydl.get_filename(entries) == "youtube_extract_Alex_Jimenez":
-        raise AssertionError()
+    assert ydl.get_filename(entries) == "youtube_extract_Alex_Jimenez"
 
 
 def test_check_args(
@@ -54,9 +54,9 @@ def test_check_args(
     ydl.check_args(args_complex_with_cookies)
     ydl.check_args(args_complex_with_sleep)
     ydl.check_args(args_complex_with_all)
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         ydl.check_args(args_incorrect)
-    with pytest.raises(Exception):
+    with pytest.raises(ValueError):
         ydl.check_args(args_incorrect_2)
 
 
@@ -67,17 +67,13 @@ def test_extract_entries_for_url(url, entries, cookies_file, sleep_requests):
 
     print(len(entries))
     print(len(extracted_entries))
-    if len(extracted_entries) != 3:
-        raise AssertionError()
+    assert len(extracted_entries) == 3, f"Expected 3 entries, got {len(extracted_entries)}"
 
-    if extracted_entries[-1]["author"] != "Alex Jimenez":
-        raise AssertionError()
-    if extracted_entries[-1]["title"] != "color red":
-        raise AssertionError()
-    if extracted_entries[-1]["duration"] != 17:
-        raise AssertionError()
-    if extracted_entries[-1]["filesize_bytes"] != 207535:
-        raise AssertionError()
+    last_entry = extracted_entries[-1]
+    assert last_entry["author"] == "Alex Jimenez"
+    assert last_entry["title"] == "color red"
+    assert last_entry["duration"] == 17
+    assert last_entry["filesize_bytes"] == 207535
 
 
 def test_extract_entries_with_cookies(url, cookies_file, sleep_requests):

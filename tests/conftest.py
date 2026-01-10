@@ -1,7 +1,9 @@
-from youtube_extract import ydl_utils
-from youtube_extract import __main__ as ydl
-import pytest
 import sys
+
+import pytest
+
+from youtube_extract import __main__ as ydl
+from youtube_extract import ydl_utils
 
 
 @pytest.fixture(scope="session")
@@ -109,7 +111,16 @@ def args_complex_with_sleep():
 @pytest.fixture(scope="session")
 def args_complex_with_all():
     url = "https://www.youtube.com/channel/UCz4wfOcIw_OezAZTQ0SjiYA/videos"
-    sys.argv = ["youtube_extract", "--export_format", "xlsx", url, "--cookies", "cookies.txt", "--sleep-requests", "10"]
+    sys.argv = [
+        "youtube_extract",
+        "--export_format",
+        "xlsx",
+        url,
+        "--cookies",
+        "cookies.txt",
+        "--sleep-requests",
+        "10",
+    ]
     args = ydl.parse_args()
     return args
 

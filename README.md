@@ -31,29 +31,35 @@ As of now it's quite slow and unpredictable, expect ~400 seconds for extracting 
 
 ## Requirements
 
-- python >=3.8
+- Python >=3.9
 - yt-dlp
 - pandas
 - openpyxl
 
 ## Installation
 
-### Preferred install method
+### From PyPI
 
 ```bash
 pip install youtube_extract
 ```
 
-If you are an Archlinux user, you can install the AUR package [youtube_extract-git](https://aur.archlinux.org/packages/youtube_extract-git).
+### From GitHub (Latest Development Version)
 
-### Run from source
+Install directly from the GitHub repository:
+
+```bash
+pip install git+https://github.com/dbeley/youtube_extract.git
+```
+
+### From Source
+
+Clone the repository and install:
 
 ```bash
 git clone https://github.com/dbeley/youtube_extract
 cd youtube_extract
-pip install yt-dlp pandas openpyxl
-python setup.py install
-youtube_extract -h
+pip install -e .
 ```
 
 ## Usage
@@ -120,7 +126,7 @@ optional arguments:
   --debug               Display debugging information.
   -e EXPORT_FORMAT, --export_format EXPORT_FORMAT
                         Export format (csv or xlsx). Default : csv.
-  --cookies COOKIE_FILE Path to cookies.txt file. 
+  --cookies COOKIE_FILE Path to cookies.txt file.
                         Use for age-restricted content.
   --sleep-requests SECONDS
                         Number of seconds to sleep between requests during data extraction.

@@ -24,7 +24,10 @@ class MyLogger:
 
 
 def ydl_get_entries(
-    search_term: str, cookies_file: str | None = None, sleep_requests: float | None = None
+    search_term: str,
+    cookies_file: str | None = None,
+    sleep_requests: float | None = None,
+    cookies_from_browser: str | None = None,
 ) -> list | None:
     """
     Extract video entries from a YouTube channel using yt-dlp.
@@ -33,6 +36,7 @@ def ydl_get_entries(
         search_term: The YouTube channel URL to extract entries from
         cookies_file: Optional path to a cookies.txt file for authentication
         sleep_requests: Optional sleep interval between requests
+        cookies_from_browser: Optional browser name to extract cookies from (e.g. chrome, firefox)
 
     Returns:
         List of video entry dictionaries, or None if an error occurred
@@ -43,6 +47,10 @@ def ydl_get_entries(
         # Add cookies file if provided
         if cookies_file:
             ydl_opts["cookiefile"] = cookies_file
+
+        # Add cookies from browser if provided
+        if cookies_from_browser:
+            ydl_opts["cookiesfrombrowser"] = (cookies_from_browser,)
 
         # Add sleep between requests if provided
         if sleep_requests is not None:

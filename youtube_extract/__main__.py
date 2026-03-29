@@ -45,12 +45,17 @@ def check_args(args: argparse.Namespace) -> None:
 
 
 def extract_entries_for_url(
-    channel_url: str, cookies_file: str | None = None, sleep_requests: float | None = None
+    channel_url: str,
+    cookies_file: str | None = None,
+    sleep_requests: float | None = None,
+    cookies_from_browser: str | None = None,
 ) -> list:
     """Extract video entries from a YouTube channel URL."""
     list_dict: list[dict] = []
     logger.debug("Extracting videos infos for %s.", channel_url)
-    entries = ydl_utils.ydl_get_entries(channel_url, cookies_file, sleep_requests)
+    entries = ydl_utils.ydl_get_entries(
+        channel_url, cookies_file, sleep_requests, cookies_from_browser
+    )
 
     if not entries:
         logger.warning("No entries found for %s", channel_url)
@@ -92,7 +97,9 @@ def main() -> None:
 
     check_args(args)
 
-    entries = extract_entries_for_url(args.channel_url, args.cookies, args.sleep_requests)
+    entries = extract_entries_for_url(
+        args.channel_url, args.cookies, args.sleep_requests, args.cookies_from_browser
+    )
 
     if not entries:
         logger.error("No entries extracted. Exiting.")
@@ -138,6 +145,14 @@ def parse_args() -> argparse.Namespace:
         type=str,
         help="Path to cookies.txt file",
         default=None,
+    )
+
+    parser.add_argument(
+        "--cookies-from-browser",
+        type=str,
+        help="Browser to extract cookies from (e.g. chrome, firefox, safari, edge)",
+        default=None,
+        dest="cookies_from_browser",
     )
 
     parser.add_argument(

@@ -8,7 +8,8 @@ Extract metadata for all videos from a youtube channel and exports it into a csv
 
 Be sure to read the csv file using the tab character `\t` as field separator in your spreadsheet software of choice.
 
-As of now it's quite slow and unpredictable, expect ~400 seconds for extracting all videos metadata from a channel containing 400 videos.
+As of now it's quite slow and unpredictable when extracting full metadata (~400 seconds for 400 videos).
+Use the `--extract-flat` flag for a ~10-100x speedup (at the cost of missing format details).
 
 ## Fields extracted
 
@@ -29,9 +30,11 @@ As of now it's quite slow and unpredictable, expect ~400 seconds for extracting 
 | best_format    | Highest Format Available       |
 | filesize_bytes | Filesize in bytes              |
 
+> **Note:** When using `--extract-flat`, `best_format` and `filesize_bytes` will be empty since format details are not resolved.
+
 ## Requirements
 
-- Python >=3.9
+- Python >=3.10
 - yt-dlp
 - pandas
 - openpyxl
@@ -96,6 +99,32 @@ The cookies file should be in the standard Netscape format:
 .domain.com TRUE / FALSE 1234567890 name value
 ```
 
+### Extracting Cookies from a Browser
+
+You can also extract cookies directly from a browser using `--cookies-from-browser`:
+
+```bash
+youtube_extract CHANNEL_URL --cookies-from-browser firefox
+```
+
+### Fast Extraction (Flat Mode)
+
+For a ~10-100x speedup when you don't need format details (`best_format`, `filesize_bytes`), use the `--extract-flat` flag:
+
+```bash
+youtube_extract CHANNEL_URL --extract-flat
+```
+
+This skips format resolution entirely and only extracts basic metadata.
+
+### Limiting the Number of Entries
+
+Use `--max-entries` to limit how many videos are extracted (useful for testing or when you only need recent videos):
+
+```bash
+youtube_extract CHANNEL_URL --max-entries 10
+```
+
 ### Rate Limiting
 
 YouTube may rate-limit your requests if you extract data from channels with many videos. To avoid this, you can use the --sleep-requests option to add a delay between requests:
@@ -103,6 +132,7 @@ YouTube may rate-limit your requests if you extract data from channels with many
 ```bash
 youtube_extract CHANNEL_URL --sleep-requests 10
 ```
+
 This will pause for 10 seconds between requests, which can help avoid rate limiting at the cost of longer extraction time.
 See: https://github.com/yt-dlp/yt-dlp/wiki/Extractors#this-content-isnt-available-try-again-later
 
@@ -113,10 +143,12 @@ youtube_extract -h
 ```
 
 ```
-usage: youtube_extract [-h] [--debug] [-e EXPORT_FORMAT] [--cookies COOKIE_FILE] [--sleep-requests SECONDS] [channel_url]
+usage: youtube_extract [-h] [--debug] [-e EXPORT_FORMAT] [--cookies COOKIE_FILE]
+                       [--cookies-from-browser BROWSER] [--sleep-requests SECONDS]
+                       [--extract-flat] [--max-entries MAX_ENTRIES]
+                       [channel_url]
 
-Extract metadata for all videos from a youtube channel into a csv or xlsx
-file.
+Extract metadata for all videos from a youtube channel into a csv or xlsx file.
 
 positional arguments:
   channel_url           Youtube channel url.
@@ -128,6 +160,12 @@ optional arguments:
                         Export format (csv or xlsx). Default : csv.
   --cookies COOKIE_FILE Path to cookies.txt file.
                         Use for age-restricted content.
+  --cookies-from-browser BROWSER
+                        Browser to extract cookies from (e.g. chrome, firefox, safari, edge)
   --sleep-requests SECONDS
                         Number of seconds to sleep between requests during data extraction.
+  --extract-flat        Extract only flat metadata (no format details).
+                        ~10-100x faster but best_format and filesize_bytes will be empty.
+  --max-entries MAX_ENTRIES
+                        Maximum number of videos to extract (useful for testing or limiting scope).
 ```

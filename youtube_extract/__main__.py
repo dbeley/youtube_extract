@@ -49,12 +49,19 @@ def extract_entries_for_url(
     cookies_file: str | None = None,
     sleep_requests: float | None = None,
     cookies_from_browser: str | None = None,
+    extract_flat: bool = False,
+    max_entries: int | None = None,
 ) -> list:
     """Extract video entries from a YouTube channel URL."""
     list_dict: list[dict] = []
     logger.debug("Extracting videos infos for %s.", channel_url)
     entries = ydl_utils.ydl_get_entries(
-        channel_url, cookies_file, sleep_requests, cookies_from_browser
+        channel_url,
+        cookies_file,
+        sleep_requests,
+        cookies_from_browser,
+        extract_flat,
+        max_entries,
     )
 
     if not entries:
@@ -66,27 +73,35 @@ def extract_entries_for_url(
         entries = entries[0]["entries"]
 
     for entry in entries:
-        if entry:
+        if not entry:
+            continue
+
+        # In flat mode, formats are not available
+        if not extract_flat and entry.get("formats"):
             best_format = entry["formats"][-2].get("format", "")
             filesize = entry["formats"][-2].get("filesize", "")
-            list_dict.append(
-                {
-                    "author": entry.get("uploader", ""),
-                    "channel_url": entry.get("uploader_url", ""),
-                    "title": entry.get("title", ""),
-                    "webpage_url": entry.get("webpage_url", ""),
-                    "view_count": entry.get("view_count", ""),
-                    "like_count": entry.get("like_count", ""),
-                    "duration": entry.get("duration", ""),
-                    "upload_date": entry.get("upload_date", ""),
-                    "tags": entry.get("tags", ""),
-                    "categories": entry.get("categories", ""),
-                    "description": entry.get("description", ""),
-                    "thumbnail": entry.get("thumbnail", ""),
-                    "best_format": best_format,
-                    "filesize_bytes": filesize,
-                }
-            )
+        else:
+            best_format = ""
+            filesize = ""
+
+        list_dict.append(
+            {
+                "author": entry.get("uploader", ""),
+                "channel_url": entry.get("uploader_url", ""),
+                "title": entry.get("title", ""),
+                "webpage_url": entry.get("webpage_url", ""),
+                "view_count": entry.get("view_count", ""),
+                "like_count": entry.get("like_count", ""),
+                "duration": entry.get("duration", ""),
+                "upload_date": entry.get("upload_date", ""),
+                "tags": entry.get("tags", ""),
+                "categories": entry.get("categories", ""),
+                "description": entry.get("description", ""),
+                "thumbnail": entry.get("thumbnail", ""),
+                "best_format": best_format,
+                "filesize_bytes": filesize,
+            }
+        )
     return list_dict
 
 
@@ -98,7 +113,12 @@ def main() -> None:
     check_args(args)
 
     entries = extract_entries_for_url(
-        args.channel_url, args.cookies, args.sleep_requests, args.cookies_from_browser
+        args.channel_url,
+        args.cookies,
+        args.sleep_requests,
+        args.cookies_from_browser,
+        args.extract_flat,
+        args.max_entries,
     )
 
     if not entries:
@@ -160,6 +180,25 @@ def parse_args() -> argparse.Namespace:
         type=float,
         help="Number of seconds to sleep between requests during data extraction",
         default=None,
+    )
+
+    parser.add_argument(
+        "--extract-flat",
+        action="store_true",
+        dest="extract_flat",
+        default=False,
+        help=(
+            "Extract only flat metadata (no format details). "
+            "~10-100x faster but best_format and filesize_bytes will be empty."
+        ),
+    )
+
+    parser.add_argument(
+        "--max-entries",
+        type=int,
+        dest="max_entries",
+        default=None,
+        help="Maximum number of videos to extract (useful for testing or limiting scope).",
     )
 
     args = parser.parse_args()

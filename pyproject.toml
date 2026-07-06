@@ -79,3 +79,11 @@ warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = false
 ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+markers = [
+    "integration: marks tests that make real YouTube network calls (skipped by default in CI)",
+]
+testpaths = ["tests"]
+# Skip integration tests by default — they need live YouTube access
+addopts = "-m 'not integration'"

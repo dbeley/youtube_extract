@@ -3,42 +3,64 @@ import sys
 import pytest
 
 from youtube_extract import __main__ as ydl
-from youtube_extract import ydl_utils
 
 
-@pytest.fixture(scope="session")
-def url():
-    url = "https://www.youtube.com/channel/UCbYMTn6xKV0IKshL4pRCV3g/videos"
-    return url
+# ---------------------------------------------------------------------------
+# Shared mock data
+# ---------------------------------------------------------------------------
+
+@pytest.fixture
+def sample_video():
+    """A single sample video dict as yt-dlp would return it (with formats)."""
+    return {
+        "uploader": "Alex Jimenez",
+        "uploader_url": "https://www.youtube.com/@alexjimenez",
+        "title": "color red",
+        "webpage_url": "https://www.youtube.com/watch?v=xyz789",
+        "view_count": 5000,
+        "like_count": 200,
+        "duration": 17,
+        "upload_date": "20230115",
+        "tags": ["art", "color"],
+        "categories": ["Education"],
+        "description": "A video about the color red",
+        "thumbnail": "https://i.ytimg.com/vi/xyz789/default.jpg",
+        "formats": [
+            {"format": "audio only", "filesize": 50000},
+            {"format": "mp4 720p", "filesize": 207535},
+            {"format": "mp4 1080p", "filesize": 500000},
+        ],
+    }
 
 
-@pytest.fixture(scope="session")
-def cookies_file():
-    # Return None or a path to a test cookies file if you have one
-    return None
+@pytest.fixture
+def sample_video_flat():
+    """A sample video dict *without* formats (flat‑extraction mode)."""
+    return {
+        "uploader": "Alex Jimenez",
+        "uploader_url": "https://www.youtube.com/@alexjimenez",
+        "title": "blue sky",
+        "webpage_url": "https://www.youtube.com/watch?v=abc123",
+        "view_count": 3000,
+        "like_count": 150,
+        "duration": 42,
+        "upload_date": "20230201",
+        "tags": ["sky", "blue"],
+        "categories": ["Science"],
+        "description": "About the blue sky",
+        "thumbnail": "https://i.ytimg.com/vi/abc123/default.jpg",
+    }
 
 
-@pytest.fixture(scope="session")
-def sleep_requests():
-    # Return None or a time interval for testing
-    return None
+@pytest.fixture
+def sample_entries(sample_video, sample_video_flat):
+    """List of entries returned by a successful extraction."""
+    return [sample_video, sample_video_flat, dict(sample_video, title="video 3")]
 
 
-@pytest.fixture(scope="session")
-def raw_entries(url, cookies_file, sleep_requests):
-    entries = ydl_utils.ydl_get_entries(url, cookies_file, sleep_requests)
-    if not entries:
-        pytest.skip("YouTube extraction returned no entries (network blocked or missing cookies)")
-    return entries
-
-
-@pytest.fixture(scope="session")
-def entries(url, cookies_file, sleep_requests):
-    entries = ydl.extract_entries_for_url(url, cookies_file, sleep_requests)
-    if not entries:
-        pytest.skip("YouTube extraction returned no entries (network blocked or missing cookies)")
-    return entries
-
+# ---------------------------------------------------------------------------
+# CLI-argument fixtures (purely local, no network)
+# ---------------------------------------------------------------------------
 
 @pytest.fixture(scope="session")
 def args_simple():

@@ -64,9 +64,9 @@ class TestYdlGetEntries:
         mock_instance = mock_ydl_cls.return_value.__enter__.return_value
         mock_instance.extract_info.return_value = {"entries": [{"id": "v1"}]}
         try:
-            ydl_utils.ydl_get_entries("url", cookies_file="/tmp/cookies.txt")
+            ydl_utils.ydl_get_entries("url", cookies_file="cookies.txt")
             _opts = mock_ydl_cls.call_args[0][0]
-            assert _opts.get("cookiefile") == "/tmp/cookies.txt"
+            assert _opts.get("cookiefile") == "cookies.txt"
         finally:
             patcher.stop()
 

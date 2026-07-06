@@ -71,7 +71,9 @@ def ydl_get_entries(
 
         with YoutubeDL(ydl_opts) as ydl:  # type: ignore[arg-type]
             info_dict = ydl.extract_info(search_term, download=False)
-        return info_dict["entries"]  # type: ignore[index, typeddict-item, no-any-return]
+        entries = info_dict["entries"]  # type: ignore[index, typeddict-item]
+        # yt-dlp may return None for errored entries when ignoreerrors=True
+        return [e for e in entries if e is not None] if entries else entries  # type: ignore[no-any-return]
     except Exception as e:
         logger.error("Error with getting the youtube url for %s : %s.", search_term, e)
         return None

@@ -27,12 +27,16 @@ def sleep_requests():
 @pytest.fixture(scope="session")
 def raw_entries(url, cookies_file, sleep_requests):
     entries = ydl_utils.ydl_get_entries(url, cookies_file, sleep_requests)
+    if not entries:
+        pytest.skip("YouTube extraction returned no entries (network blocked or missing cookies)")
     return entries
 
 
 @pytest.fixture(scope="session")
 def entries(url, cookies_file, sleep_requests):
     entries = ydl.extract_entries_for_url(url, cookies_file, sleep_requests)
+    if not entries:
+        pytest.skip("YouTube extraction returned no entries (network blocked or missing cookies)")
     return entries
 
 

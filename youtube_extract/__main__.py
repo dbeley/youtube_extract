@@ -68,8 +68,16 @@ def extract_entries_for_url(
         logger.warning("No entries found for %s", channel_url)
         return list_dict
 
+    # Filter out None entries (yt-dlp returns None for errored videos
+    # when ignoreerrors=True, e.g. when YouTube blocks the request)
+    entries = [e for e in entries if e is not None]
+
+    if not entries:
+        logger.warning("No entries found for %s", channel_url)
+        return list_dict
+
     # workaround if channel videos are seen as a playlist
-    if entries and "_type" in entries[0] and entries[0]["_type"] == "playlist":
+    if "_type" in entries[0] and entries[0]["_type"] == "playlist":
         entries = entries[0]["entries"]
 
     for entry in entries:

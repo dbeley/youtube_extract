@@ -2,8 +2,6 @@
 
 from unittest import mock
 
-import pytest
-
 from youtube_extract import ydl_utils
 
 # ---------------------------------------------------------------------------

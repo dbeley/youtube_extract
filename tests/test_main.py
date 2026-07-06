@@ -7,7 +7,6 @@ import pytest
 from youtube_extract import __main__ as ydl
 from youtube_extract import ydl_utils
 
-
 # =======================================================================
 # Pure unit tests (no mocking needed)
 # =======================================================================
